@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TomArcherMusic.Data;
+using TomArcherMusic.Services.Implementation;
+using TomArcherMusic.Services.Interfaces;
 
 namespace TomArcherMusic
 {
@@ -13,8 +15,12 @@ namespace TomArcherMusic
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
-
+            //builder.Services.AddHttpClient("ApiClient", (provider, client) =>
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:7073/TomArcherMusic/");
+            //});
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7073/TomArcherMusic/") });
+            builder.Services.AddScoped<IMusicCardService,MusicCardService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
